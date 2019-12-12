@@ -46,7 +46,7 @@ def test_next_generation_glider():
         [0, 0, 0, 0, 0]
     ]
 
-    expected_4th = [
+    expected_4th_gen = [
         [0, 0, 0, 0, 0],
         [0, 0, 1, 0, 0],
         [0, 0, 0, 1, 0],
@@ -56,4 +56,4 @@ def test_next_generation_glider():
     gen = gen_0
     for _ in range(1, 4):
         gen = next_generation(gen)
-    assert expected_4th == next_generation(gen)
+    assert expected_4th_gen == next_generation(gen)

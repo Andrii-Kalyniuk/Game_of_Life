@@ -1,4 +1,12 @@
+import os
 import time
+
+
+def clear_screen():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 
 def find_neighborhood(row, column, gen):
@@ -25,6 +33,7 @@ def next_generation(gen):
         for column in range(len(gen[row])):
             # print(find_neighborhood(row, column, gen))
             life_count = find_neighborhood(row, column, gen)[2]
+            # todo: refactor ifs, maybe use dict
             if gen[row][column] == 1 and life_count in (2, 3):
                 pass  # stay alive
             if gen[row][column] == 0 and life_count == 3:
@@ -37,6 +46,7 @@ def next_generation(gen):
 
 
 if __name__ == "__main__":
+
     gen_0 = [
         [0, 1, 0, 0, 0],
         [0, 0, 1, 0, 0],
@@ -44,9 +54,19 @@ if __name__ == "__main__":
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0]
     ]
-    for _ in range(4):
+    clear_screen()
+    number_of_gen = 15
+    for _ in range(number_of_gen):
         gen_0 = next_generation(gen_0)
         for line in gen_0:
             print(line)
         print('-' * 20, _ + 1)
-        time.sleep(1)
+        time.sleep(0.5)
+        if _ != number_of_gen - 1:
+            clear_screen()
+            # todo how to clear screen in PyCharm terminal?
+            # works only 4 Linux terminal
+            # cursor_up_and_home = "\033[F"
+            # cursor_down = "\033[B"
+            # print(cursor_up_and_home * (len(gen_0) + 1), end='')
+    # print(cursor_down * (len(gen_0) + 1))
