@@ -10,6 +10,7 @@ def clear_screen():
 
 
 def find_neighborhood(row, column, gen):
+    # todo: loop the borders of the matrix
     neighborhood = []
     steps = (
         (1, 0), (-1, 0), (0, 1), (0, -1),
@@ -24,6 +25,21 @@ def find_neighborhood(row, column, gen):
     return (row, column), neighborhood, sum(neighborhood)
 
 
+def find_neighborhood_unlim(row, column, gen):
+    neighborhood = []
+    steps = (
+        (1, 0), (-1, 0), (0, 1), (0, -1),
+        (1, 1), (-1, 1), (-1, -1), (1, -1)
+    )
+    for row_step, column_step in steps:
+        if row + row_step >= len(gen):  # 2+(-3+1) = 0
+            row_step = -len(gen) + 1
+        if column + column_step >= len(gen[row]):
+            column_step = -len(gen[row]) + 1
+        neighborhood.append(gen[row + row_step][column + column_step])
+    return (row, column), neighborhood, sum(neighborhood)
+
+
 def next_generation(gen):
     # gen_next = gen[:]  # not work
     # gen_next = list(gen)  # not work
@@ -32,7 +48,7 @@ def next_generation(gen):
         gen_next.append(gen[row][:])  # it's work
         for column in range(len(gen[row])):
             # print(find_neighborhood(row, column, gen))
-            life_count = find_neighborhood(row, column, gen)[2]
+            life_count = find_neighborhood_unlim(row, column, gen)[2]
             # todo: refactor ifs, maybe use dict
             if gen[row][column] == 1 and life_count in (2, 3):
                 pass  # stay alive
@@ -55,7 +71,7 @@ if __name__ == "__main__":
         [0, 0, 0, 0, 0]
     ]
     clear_screen()
-    number_of_gen = 15
+    number_of_gen = 100
     for _ in range(number_of_gen):
         gen_0 = next_generation(gen_0)
         for line in gen_0:
