@@ -75,7 +75,7 @@ if __name__ == "__main__":
     for _ in range(number_of_gen):
         gen_0 = next_generation(gen_0)
         for line in gen_0:
-            print(line)
+            print(''.join(map(str, line)).replace('0', '.').replace('1', 'o'))
         print('-' * 20, _ + 1)
         time.sleep(0.5)
         if _ != number_of_gen - 1:
