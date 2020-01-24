@@ -41,6 +41,7 @@ def find_neighborhood(row, column, gen, ignore_borders=True):
             if 0 <= row + row_step < len(gen) and \
                     0 <= column + column_step < len(gen[row]):
                 neighborhood.append(gen[row + row_step][column + column_step])
+    # TODO: remove row, columns, neighborhood
     return (row, column), neighborhood, sum(neighborhood)
 
 
@@ -65,29 +66,49 @@ def next_generation(gen, ignore_borders=True):
     return gen_next
 
 
+def list_playground_2_str(list_playground, print_it=False):
+    """
+    Convert list representation of generation pattern into string
+    """
+    str_playground = ''
+    for line in list_playground:
+        str_playground = str_playground + '</br>\n' + ''.join(map(str, line))
+    str_playground = str_playground.replace('0', '.').replace('1', 'O')
+    if print_it:
+        print(str_playground.replace('</br>', ''))
+    return str_playground
+
+
 def show_generations(current_generation=[], number_of_gen=1,
-                     ignore_borders=True):
+                     ignore_borders=True, respawn=False):
     """
     Displays the specified number of generations
     """
+    # prev_generation = current_generation.copy()
     clear_screen()
     for current_gen_number in range(number_of_gen):
         current_generation = next_generation(current_generation,
                                              ignore_borders=ignore_borders)
-        for line in current_generation:
-            print(''.join(map(str, line))
-                  .replace('0', '.')
-                  .replace('1', 'O'))
+        list_playground_2_str(current_generation, print_it=True)
         print('generation #', current_gen_number + 1)
         time.sleep(0.25)
         if current_gen_number != number_of_gen - 1:
             clear_screen()
-            # TODO: how to clear screen in PyCharm terminal?
-            # it works only 4 Linux terminal
-            # cursor_up_and_home = "\033[F"
-            # cursor_down = "\033[B"
-            # print(cursor_up_and_home * (len(current_generation) + 1), end='')
+        # TODO: scatter_life if gen died or prev_gen == cur_gen
+        # if respawn:
+        # if prev_generation == current_generation:
+        #     columns, lines = (len(line), len(current_generation))
+        #     new_generation = scatter_life(make_playground(columns, lines))
+        #     show_generations(new_generation, number_of_gen=number_of_gen,
+        #                      ignore_borders=ignore_borders,
+        #                      respawn=respawn)
+        # TODO: how to clear screen in PyCharm terminal?
+        # it works only 4 Linux terminal
+        # cursor_up_and_home = "\033[F"
+        # cursor_down = "\033[B"
+        # print(cursor_up_and_home * (len(current_generation) + 1), end='')
     # print(cursor_down * (len(current_generation) + 1))
+    return list_playground_2_str(current_generation)
 
 
 def make_playground(columns, lines):
@@ -104,10 +125,8 @@ def scatter_life(playground):
     for line in range(len(playground)):
         for column in range(len(playground[line])):
             playground[line][column] = randrange(2)
-        # print(''.join(map(str, playground[line]))
-        #       .replace('1', 'O')
-        #       .replace('0', '.'))
-    # time.sleep(1)
+    #DEBUG
+    # list_playground_2_str(playground, print_it=True)
     return playground
 
 
@@ -161,6 +180,7 @@ if __name__ == "__main__":
     # show_generations(pulsar_gen, 99)
 
     # glider_gun_gen_0 = str_2_list_playground(glider_gun_raw)
+    # glider_gun_gen_0 = extend_playground(glider_gun_gen_0, 10, 10, 10, 10)
     # show_generations(glider_gun_gen_0, 500)
 
     # fuse_gen = str_2_list_playground(fuse_raw)
@@ -179,12 +199,11 @@ if __name__ == "__main__":
     #                                        cols_before=10)
     # show_generations(ff_force_field_gen, 99, ignore_borders=True)
 
-    glider_gen = str_2_list_playground(glider_raw)
-    glider_gen = extend_playground(glider_gen,
-                                   lines=1, columns=1,
-                                   lines_before=1, cols_before=1)
-    show_generations(glider_gen, 99, ignore_borders=True)
+    # glider_gen = str_2_list_playground(glider_raw)
+    # glider_gen = extend_playground(glider_gen,
+    #                                lines=1, columns=1,
+    #                                lines_before=1, cols_before=1)
+    # show_generations(glider_gen, 99, ignore_borders=True)
 
     gen_0 = scatter_life(make_playground(20, 5))
-    show_generations(gen_0, 100)
-
+    show_generations(gen_0, 100, respawn=True)
