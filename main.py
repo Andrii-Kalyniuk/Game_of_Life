@@ -7,12 +7,15 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def get_home():
+@app.route('/<int:steps>')
+def get_home(steps=0):
     glider_gen = str_2_list_playground(glider_raw)
     glider_gen = extend_playground(glider_gen,
-                                   lines=1, columns=1,
-                                   lines_before=1, cols_before=1)
-    return show_generations(glider_gen, 1, ignore_borders=True)
+                                   lines=3, columns=3,
+                                   lines_before=3, cols_before=3)
+    generation = show_generations(glider_gen, number_of_gen=steps, ignore_borders=True)
+    # TODO: add template.html
+    return f"<table border=1px solid black><tr><td style='font-family: mono'>{generation}</td><tr></table>"
 
 
 if __name__ == '__main__':

@@ -72,7 +72,7 @@ def list_playground_2_str(list_playground, print_it=False):
     """
     str_playground = ''
     for line in list_playground:
-        str_playground = str_playground + '</br>\n' + ''.join(map(str, line))
+        str_playground = f"{str_playground}</br>\n{''.join(map(str, line))}"
     str_playground = str_playground.replace('0', '.').replace('1', 'O')
     if print_it:
         print(str_playground.replace('</br>', ''))
