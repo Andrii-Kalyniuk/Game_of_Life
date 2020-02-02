@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+
+{% block body %}
+
+<!--TODO: Use CSS instead-->
+
+<table style="font-family: mono; border: 1px solid black">
+    <tr>
+        {% for line in generation %}
+            <tr>
+            {% for cell in line %}
+                {% if cell == 'O' %}
+                    <td style="font-family: mono; border: 1px solid black;background-color:black">O</td>
+                {% else %}
+                    <td style="font-family: mono; border: 1px solid black">.</td>
+                {% endif %}
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </tr>
+</table>
+
+{% endblock %}

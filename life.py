@@ -66,17 +66,18 @@ def next_generation(gen, ignore_borders=True):
     return gen_next
 
 
-def list_playground_2_str(list_playground, print_it=False):
+def list_playground_2_str(list_playground, print_terminal=False):
     """
     Convert list representation of generation pattern into string
     """
     str_playground = ''
     for line in list_playground:
-        str_playground = f"{str_playground}</br>\n{''.join(map(str, line))}"
+        str_playground = f"{str_playground}\n{''.join(map(str, line))}"
     str_playground = str_playground.replace('0', '.').replace('1', 'O')
-    if print_it:
-        print(str_playground.replace('</br>', ''))
-    return str_playground
+    if print_terminal:
+        # print(str_playground.replace('</br>', ''))
+        print(str_playground)
+    return str_playground.strip()
 
 
 def show_generations(current_generation=[], number_of_gen=1,
@@ -89,9 +90,9 @@ def show_generations(current_generation=[], number_of_gen=1,
     for current_gen_number in range(number_of_gen):
         current_generation = next_generation(current_generation,
                                              ignore_borders=ignore_borders)
-        list_playground_2_str(current_generation, print_it=True)
+        list_playground_2_str(current_generation, print_terminal=True)
         print('generation #', current_gen_number + 1)
-        time.sleep(0.25)
+        # time.sleep(0.25)
         if current_gen_number != number_of_gen - 1:
             clear_screen()
         # TODO: scatter_life if gen died or prev_gen == cur_gen
